@@ -1,6 +1,6 @@
 from flask import Flask
 
-from app.routes.all_messages_route import email_blueprint
+from app.db.mongodb.routes.all_messages_route import email_blueprint
 
 app = Flask(__name__)
 

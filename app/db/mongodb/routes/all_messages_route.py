@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from app.repository.all_messages_repository import insert_message
+from app.service.producer_service.producer_all_messages import produce_all_messages
 
 email_blueprint = Blueprint('email', __name__)
 
@@ -9,5 +9,5 @@ email_blueprint = Blueprint('email', __name__)
 def add_messages():
     message = request.json
     print(message)
-    insert_message(message)
+    produce_all_messages(message)
     return jsonify("messages inserted"), 201

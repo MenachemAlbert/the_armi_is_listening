@@ -1,4 +1,4 @@
-from app.db.database import all_messages
+from app.db.mongodb.database import all_messages
 
 
 def insert_message(message):
