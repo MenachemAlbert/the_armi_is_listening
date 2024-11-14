@@ -18,9 +18,13 @@ def consume_explosive_messages():
         auto_offset_reset='latest'
     )
     for message in consumer:
-        inserted_user = insert_user(message.value)
-        add_explosive_sentences(inserted_user, message.value['sentences'])
-        print(f'received:{message.key}:{message.value}')
+        try:
+            inserted_user = insert_user(message.value)
+            if inserted_user is not None:
+                add_explosive_sentences(inserted_user, message.value['sentences'])
+
+        except Exception as e:
+            print(f"Unexpected error while processing message: {e}")
 
 
 app = Flask(__name__)
