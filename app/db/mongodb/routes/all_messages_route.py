@@ -8,6 +8,5 @@ email_blueprint = Blueprint('email', __name__)
 @email_blueprint.route('/', methods=['POST'])
 def add_messages():
     message = request.json
-    print(message)
     produce_all_messages(message)
     return jsonify("messages inserted"), 201
