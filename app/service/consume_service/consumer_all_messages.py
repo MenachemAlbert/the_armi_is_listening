@@ -20,6 +20,7 @@ def consume_all_messages():
         value_deserializer=lambda v: json.loads(v.decode('utf-8')),
         auto_offset_reset='earliest'
     )
+
     for message in consumer:
         insert_message(message.value)
 
