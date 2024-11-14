@@ -1,6 +1,6 @@
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.psql.database import session_maker
-from app.db.psql.models import User, Location, DeviceInfo
+from app.db.psql.models import User, Location, DeviceInfo, ExplosiveSentence, HostageSentence
 
 
 def create_user(user_data):
@@ -46,6 +46,48 @@ def insert_user(user_data):
             session.commit()
             session.refresh(user)
             return user.id
+
+    except SQLAlchemyError as e:
+        print(f"SQLAlchemyError: {e}")
+        return None
+
+
+def add_explosive_sentences(user_id, sentences):
+    try:
+        with session_maker() as session:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user is None:
+                print(f"User with id {user_id} not found.")
+                return None
+
+            for sentence in sentences:
+                sentence = ExplosiveSentence(sentence=sentence, user=user)
+                session.add(sentence)
+
+            session.commit()
+            print(f"Added explosive sentences for user {user_id}.")
+            return True
+
+    except SQLAlchemyError as e:
+        print(f"SQLAlchemyError: {e}")
+        return None
+
+
+def add_hostage_sentences(user_id, sentences):
+    try:
+        with session_maker() as session:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user is None:
+                print(f"User with id {user_id} not found.")
+                return None
+
+            for sentence in sentences:
+                sentence = HostageSentence(sentence=sentence, user=user)
+                session.add(sentence)
+
+            session.commit()
+            print(f"Added hostage sentences for user {user_id}.")
+            return True
 
     except SQLAlchemyError as e:
         print(f"SQLAlchemyError: {e}")

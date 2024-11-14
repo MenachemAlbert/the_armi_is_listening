@@ -5,7 +5,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from kafka import KafkaConsumer
 
-from app.db.psql.repository.psql_repository import insert_user
+from app.db.psql.repository.psql_repository import insert_user, add_hostage_sentences
 
 load_dotenv(verbose=True)
 
@@ -18,7 +18,8 @@ def consume_hostage_messages():
         auto_offset_reset='latest'
     )
     for message in consumer:
-        insert_user(message.value)
+        inserted_user = insert_user(message.value)
+        add_hostage_sentences(inserted_user, message.value['sentences'])
         print(f'received:{message.key}:{message.value}')
 
 
