@@ -8,7 +8,7 @@ from app.db.psql.route.user_route import user_blueprint
 app = Flask(__name__)
 
 if __name__ == '__main__':
-    # init_db()
+    init_db()
     app.register_blueprint(email_blueprint, url_prefix="/api/email")
     app.register_blueprint(user_blueprint, url_prefix="/api/user")
     app.register_blueprint(most_common_blueprint, url_prefix="/api/most")
